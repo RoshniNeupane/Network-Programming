@@ -1,33 +1,35 @@
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.net.InetAddress;
-import java.net.*;
+
 public class NetworkInterfaceExample {
     public static void main(String[]args){
-        try{
-        //     Enumeration<NetworkInterface>ni=NetworkInterface.getNetworkInterfaces();
-        //     while(ni.hasMoreElements()){
-        //    NetworkInterface address=ni.nextElement();
-        //        System.out.println(address.getName());
-        //        System.out.println(address.getIndex());
-        //        System.out.println(address.isLoopback());
-        //        System.out.println(address.getNetworkInterfaces());
-        //     }
-           NetworkInterface ni=NetworkInterface.getByName("127.0.0.1");
-           Enumeration<InetAddress> address=ni.getInetAddresses();
-             while(address.hasMoreElements()){
-           InetAddress addresses=address.nextElement();
-               System.out.println(addresses);
-        //     //    System.out.println(address.getIndex());
-        //     //    System.out.println(address.getNetworkInterfaces());
-        //     // }
-        }
-    }catch(SocketException e){
+        try {
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+
+            while(nis.hasMoreElements()) {
+                NetworkInterface ni = nis.nextElement();
+
+                if(ni.isLoopback()) {
+                    System.out.println(ni);
+                }
+            }
+
+            NetworkInterface loopback = NetworkInterface.getByName("loopback_0");
+
+            Enumeration<InetAddress> addresses = loopback.getInetAddresses();
+
+            while(addresses.hasMoreElements()) {
+                InetAddress address = addresses.nextElement();
+
+                System.out.println(address);
+            }
+        } catch (SocketException e) {
             System.out.println(e);
         }
-        }
     }
+}
 
 //learn methods of networkInterface
 //getByname- gets a networkinterface object by its name.
